@@ -4,7 +4,7 @@ from app import db
 
 
 class Visitor(db.Model):
-    '''Database for storing site visitors.'''
+    '''Table for storing site visitors.'''
 
     __tablename__ = 'Visitors'
 
