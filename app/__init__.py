@@ -4,12 +4,19 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 
-def create_app():
-    '''Creating a Flask application.'''
+def create_app(config_obj=None):
+    '''Creating a Flask application.
+    
+    Parameters:
+        config_obj: object
+            Class object with properties as Flask settings
+    '''
 
     app = Flask(__name__, instance_relative_config=False)
 
-    if app.config['ENV'] == 'production':
+    if config_obj:
+        app.config.from_object(config_obj)
+    elif app.config['ENV'] == 'production':
         app.config.from_object('config.Config')
     else:
         app.config.from_object('config.DevConfig')
