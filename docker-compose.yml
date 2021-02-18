@@ -1,0 +1,32 @@
+version: '3.7'
+
+services:
+    web:
+        build: .
+        command: python wsgi.py
+        volumes:
+            - .:/usr/app/
+        ports:
+            - 5000:5000
+        environment:
+            - FLASK_ENV=production
+            - SQLALCHEMY_DATABASE_URI=postgresql://pguser:pgpass@db:5432/appdb
+        depends_on:
+            - db
+        networks:
+            - default
+    db:
+        image: postgres:12-alpine
+        volumes:
+            - postgres_data:/var/lib/postgresql/data/
+        ports:
+            - 5432:5432
+        environment:
+            - POSTGRES_USER=pguser
+            - POSTGRES_PASSWORD=pgpass
+            - POSTGRES_DB=appdb
+        networks:
+            - default
+
+volumes:
+    postgres_data:
